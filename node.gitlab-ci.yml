@@ -1,0 +1,43 @@
+stages:
+  - lint
+  - install
+  - deploy
+
+lint_chencking_job:
+  stage: lint
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - new-item -path .\node_modules -itemType SymbolicLink -target <Target location where we need to paste the node module dependency files.>
+    # Make sure you have python installed in your VM
+    # Also a folder in the project with name hooks and file name post-commit.py
+    # That has python code to check eslint in your project
+    - python <python file which has code to check eslint of a nodejs project>
+    - echo "ESlint check successful!"
+  except:
+    - <The git branch other than which, whose change triggers the above job.>
+  # only:
+  #   - <The git branch whose change triggers the above job.>
+
+packages_install_job:
+  stage: install
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - xcopy /e /i /q /y .\package.json <Target location of node modules as above (location link in line 11.)>
+    # Make sure you have python code to check packages in the nodejs project
+    - python <python file which has code to check package to be installed/updated of a nodejs project> <Above target location> 
+    - echo "Package installed and updated successfully!"
+  only:
+    - <The git branch whose change triggers the above job.>
+
+deploy_job:
+  stage: deploy
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - echo "Deploying to server."
+    - xcopy /e /i /q /y . <Target location where you have your nodejs project and want to update your code.>
+    - echo "Deployment successful."
+  only:
+    - <The git branch whose change triggers the above job.> 

@@ -1,0 +1,49 @@
+stages:
+  - eslint
+  - build
+  - deploy
+
+lint_chencking_job:
+  stages: eslint
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - echo "Starting eslint test..."
+    # - Add eslint verification file written in python.
+    # You can install eslint-plugin-import in the react project
+    # and create eslintrc.js file in the project adjacent to src folder
+    - echo "eslint Test completed successfully."
+  # Select below branch condition accordingly.
+  except:
+    - <The git branch other than which, whose change triggers the above job.>
+  # only:
+  #   - <The git branch whose change triggers the above job.>
+
+building_job:
+  stages: build
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - echo "Generating build..."
+    - xcopy /e /i /q /y . <Target location where the build files have to be pasted.>
+    - cd <Target location where above build files are pasted.>
+    - yarn install
+    - yarn build
+    # - npm install
+    # - npm run build
+    - echo "Build generation complete."
+  only:
+    - <The git branch whose change triggers the above job.>
+
+deploy_job:
+  stage: deploy
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - echo "Deploying to server"
+    - cd <Target location where above build files are pasted.>
+    - xcopy /e /i /q /y .\build <Target location of html folder inside nginx folder that has nginx files.>
+    - echo "Nginx deployment successful."
+  only:
+    - <The git branch whose change triggers the above job.>
+  
