@@ -8,8 +8,8 @@ You can configure/register your gitlab runner by following the below steps or by
 Link: youtube.com/watch?v=2MBhxk2chhM
 
 1. Login to your VM
-2. Download the respective gitlab runner that suits your VM/system
-3. Paste the .exe file inside local disk C
+2. Download the respective gitlab runner that suits your VM/system from https://docs.gitlab.com/runner/install/windows.html
+3. Paste the .exe file inside local disk C inside a folder
 4. Name the above folder as Gitlab-Runner
 5. Also rename the .exe file to gitlab-runner.exe
 6. Type cmd in the search in taskbar
@@ -37,6 +37,8 @@ Active runners can be seen below.
 13. Give tag names as needed.
 14. Give executor as shell
 15. Your gitlab runner has been registered successfully.
+16. Now, type gitlab-runner.exe start
+17. Now, type gitlab-runner.exe run
 
 Now rename the yml file(remove project code format from the starting of yml files attached) to gitlab-ci.yml
 Paste the renamed yml file inside the repo root location.
