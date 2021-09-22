@@ -1,0 +1,31 @@
+stages:
+  - build
+  - deploy
+
+build_classes:
+  stage: build
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - echo "Initiating class builds..."
+    # Below file to be inside the initial repo opening itself
+    - start buildAllServices.bat
+    - taskkill /F /IM cmd.exe
+    - xcopy /e /i /q /y <Generated build files location> <Target to paste build files>
+    - echo "Build generated successfully!"
+  only:
+    - <The git branch whose change triggers the above job.>
+
+deploy_job:
+  stage: deploy
+  tags:
+    - <Tag you give while configuring gitlab runner>
+  script:
+    - echo "Deploying inside VM..."
+    # Below mentioned batch consists of code that runs the .net core project
+    - cd <Location of batch file to run the above build services>
+    # Below mentioned batch file has the code to run the .net core project
+    - start dotnetcoreRunServices.bat
+    - echo "Deployed successfully!"
+  only:
+    - <The git branch whose change triggers the above job.>
