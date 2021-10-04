@@ -1,4 +1,4 @@
-# Change name of this file to .gitlab-ci.yml and paste at the opening folder of git repo itself
+# Paste this file at the opening folder of git repo itself
 stages:
   - eslint
   - build
